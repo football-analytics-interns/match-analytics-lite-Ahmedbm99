@@ -1,42 +1,77 @@
-# Match Analytics Lite — Starter Template
+# Match Analytics Project
 
-Welcome to the Match Analytics Lite 24-hour internship test.
+## Overview
+This web application provides analytics for football matches, tracking **players**, **events**, and **matches**.  
+- **Backend:** Spring Boot (Java)  
+- **Frontend:** Angular  
+- **Database:** PostgreSQL  
 
-## Goal (24 hours)
-Build a minimal Match Analytics prototype for **one match**.
-You implement backend (Spring Boot), frontend (Angular), and simple visualizations.
-Keep it simple: focus on correctness, meaningful charts, and documentation.
+The backend automatically seeds example data from `match.json` on first run.
 
-## Minimal requirements (must)
-1. Implement the following backend endpoints:
-   - GET /api/match  → returns a single match JSON (players + events)
-   - POST /api/event → add an event (goal, pass, tackle)
-   - GET /api/player/{id} → return player summary (goals, assists, formRating)
+---
 
-2. Frontend: single "Match Dashboard" page with:
-   - Players table (position, goals, assists, formRating)
-   - A chart (bar chart or simple heatmap) showing events aggregated per player or zone
-   - Event timeline list (chronological)
+## Backend Setup (Spring Boot)
 
-3. Seed data: use `seed/match.json` as initial data to implement GET /api/match.
+### Prerequisites
+- Java 17+  
+- Maven 3.8+  
+- PostgreSQL 15+  
 
-4. README must include:
-   - How to run the project (docker optional)
-   - Which AI tools (if any) were used
-   - Short explanation of the formRating formula and assumptions
+### Database Setup
+1. Create the database `matchAnalytics`:
 
-## Seed data
-See `seed/match.json` for a minimal example dataset.
 
-## Submission
-- Fork this repo via GitHub Classroom (you will receive a link).
-- Push your implementation to your fork within **24 hours**.
-- Document any incomplete parts in your README.
+2. Update your application.properties:
+         spring.datasource.url=jdbc:postgresql://localhost:5432/matchAnalytics
+         spring.datasource.username=your_username
+         spring.datasource.password=your_password
+         spring.jpa.hibernate.ddl-auto=update
+         spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 
-## Notes for reviewers
-Keep the evaluation pragmatic: this is a 24h test. We prioritize:
-- Working endpoints
-- Meaningful visualization
-- Clear README & commit history
+3. Run the Backend
+   mvn clean spring-boot:run
+----
+The backend runs at: http://localhost:8080
+The database will be seeded automatically using src/main/resources/seed/match.json.
 
-Good luck!
+| Method | URL                            | Description           | Request Body      | Response                                     |
+| ------ | ------------------------------ | --------------------- | ----------------- | -------------------------------------------- |
+| `POST` | `/api/event`                   | Create a new event    | `EventDTO` (JSON) | Saved `Event` object                         |
+| `GET`  | `/api/event`                   | Get all events        | None              | List of events with assist populated         |
+| `GET`  | `/api/player/{playerId}/stats` | Get player statistics | None              | `PlayerStatsDTO` with goals, assists, rating |
+
+
+## FrontEnd Setup (Angular)
+### Prerequisites
+- Node.js 18+
+- Angular CLI 16+
+ 
+1. Install Dependencies
+      npm install
+
+2. Run Angular Application
+      ng serve
+----
+The frontend runs at: http://localhost:4200
+Make sure the backend server is running on port 8080.
+
+----
+### Notes 
+All data is stored in PostgreSQL.
+
+Backend automatically maps meta and assist fields for events.
+
+Frontend communicates with backend APIs to display matches, players, events.
+
+match-analytics/
+├── backend/           # Spring Boot backend
+│   ├── src/main/java/com/matchAnalytics
+│   ├── src/main/resources
+│   │   └── seed/match.json
+├── frontend/          # Angular frontend
+│   ├── src/
+│   └── package.json
+└── README.md
+
+
+
