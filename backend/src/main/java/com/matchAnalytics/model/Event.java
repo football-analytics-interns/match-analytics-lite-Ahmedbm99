@@ -1,8 +1,14 @@
 package com.matchAnalytics.model;
 
 import jakarta.persistence.*;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.matchAnalytics.repository.PlayerRepository;
 
 @Entity
 @Table(name = "events")
@@ -23,10 +29,16 @@ public class Event {
     private Player player;
 
     @Column(columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private String meta; 
-
+    @Transient
+    private Player assist;
     @Transient
     private JsonNode metaObject;
+
+    @ManyToOne
+    @JoinColumn(name = "match_id")
+    private Match match;
 
     public Long getId() {
         return id;
@@ -39,7 +51,7 @@ public class Event {
     public int getMinute() {
         return minute;
     }
-
+  
     public void setMinute(int minute) {
         this.minute = minute;
     }
@@ -83,7 +95,12 @@ public class Event {
     public void setMetaObject(JsonNode metaObject) {
         this.metaObject = metaObject;
     }
-
+    public Match getMatch() {
+        return match;
+    }
+    public void setMatch(Match match) {
+        this.match = match;
+    }
     public Event(int minute, String type, Long playerId, Player player, String meta, JsonNode metaObject) {
         this.minute = minute;
         this.type = type;
@@ -95,5 +112,21 @@ public class Event {
 
     public Event() {}
 
-    
+ public Player getAssist(PlayerRepository playerRepository) {
+    if (assist == null && meta != null) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode node = mapper.readTree(meta);
+            if (node.has("assistId")) {
+                Long assistId = node.get("assistId").asLong();
+                assist = playerRepository.findById(assistId).orElse(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();}
+    }
+    return assist;
+}
+    public void setAssist(Player assist) {
+        this.assist = assist;
+    }
 }

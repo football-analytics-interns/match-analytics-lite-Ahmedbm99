@@ -7,7 +7,6 @@ import java.util.List;
 @Table(name = "players")
 public class Player {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;

@@ -7,7 +7,7 @@ import java.util.List;
 @Table(name = "matches")
 public class Match {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   
     private Long id;
 
     private String homeTeam;
