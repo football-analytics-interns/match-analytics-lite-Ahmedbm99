@@ -66,7 +66,7 @@ Docker Compose 2+
 2. Accessing Services
 Backend API: http://localhost:8080
 Database: localhost:5432
-
+The frontend runs at: http://localhost:4200
 
 
 
