@@ -19,11 +19,11 @@ public class Match {
     private Integer homeScore;
     private Integer awayScore;
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference("match-players")
     private List<Player> players;
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference("match-events")
 
     private List<Event> events;
 

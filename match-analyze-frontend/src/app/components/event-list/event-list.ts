@@ -7,20 +7,18 @@ import { Event } from '../../models/models';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './event-list.html',
-  styleUrl: './event-list.css'
+  styleUrls: ['./event-list.css']
 })
 export class EventsList {
   @Input() events: Event[] | null = [];
   @Input() homeTeam: string = ''; 
 
-getEventIcon(type: string): string {
-  switch (type.toLowerCase()) {
-    case 'goal': return 'fas fa-futbol';       // football icon
-    case 'shot': return 'fas fa-bullseye';     // target icon
-    case 'tackle': return 'fas fa-shield-alt'; // shield icon
-    default: return 'fas fa-star';
+  getEventIcon(type: string): string {
+    switch (type.toLowerCase()) {
+      case 'goal': return 'fas fa-futbol';      
+      case 'shot': return 'fas fa-bullseye';     
+      case 'tackle': return 'fas fa-shield-alt'; 
+      default: return 'fas fa-star';             
+    }
   }
 }
-
-}
-

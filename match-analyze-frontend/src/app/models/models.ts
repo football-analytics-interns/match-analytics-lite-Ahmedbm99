@@ -10,7 +10,7 @@ export interface Match {
 export interface Player {
   id: number;
   name: string;
-  position: string;
+  position?: string;
   team: string;
 }
 

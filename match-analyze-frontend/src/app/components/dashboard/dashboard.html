@@ -1,15 +1,57 @@
+<div class="toast" *ngIf="showToast">{{ toastMessage }}</div>
+
 <div *ngIf="loading" class="loading-text">Loading match...</div>
 
 <div *ngIf="match" class="match-card">
-  <!-- Match Info -->
   <div class="match-header">
     <h2>{{ match.homeTeam }} vs {{ match.awayTeam }}</h2>
     <p>Date: {{ match.date | date:'short' }}</p>
   </div>
 
+  <form (ngSubmit)="onAddEvent()" #eventForm="ngForm" class="add-event-form">
 
-<app-event-list [events]="match.events" ></app-event-list>
-    <!-- Players Table -->
+    <label>Event Type:</label>
+    <select [(ngModel)]="newEvent.type" name="type" required>
+      <option value="GOAL">Goal</option>
+      <option value="SHOT">Shot</option>
+      <option value="TACKLE">Tackle</option>
+    </select>
+
+    <label>Minute:</label>
+    <input [(ngModel)]="newEvent.minute" name="minute" type="number" min="1" max="90" required />
+
+    <label>Player:</label>
+    <select [(ngModel)]="newEvent.playerId" name="playerId" required>
+      <optgroup label="Home Team">
+        <option *ngFor="let p of homePlayers" [value]="p.id">{{ p.name }}</option>
+      </optgroup>
+      <optgroup label="Away Team">
+        <option *ngFor="let p of awayPlayers" [value]="p.id">{{ p.name }}</option>
+      </optgroup>
+    </select>
+
+    <div *ngIf="newEvent.type === 'GOAL'">
+      <label>Assist (optional):</label>
+      <select [(ngModel)]="newEvent.assist" name="assistId">
+        <option [ngValue]="undefined">Solo</option>
+        <option *ngFor="let p of allPlayers" [ngValue]="p">{{ p.name }}</option>
+      </select>
+    </div>
+
+    <div *ngIf="newEvent.type === 'SHOT'">
+      <label>Shot On Target?</label>
+      <select [(ngModel)]="newEvent.meta" name="onTarget">
+        <option value="true">True</option>
+        <option value="false">False</option>
+      </select>
+    </div>
+
+    <button type="submit">Add Event</button>
+  </form>
+
+  <hr />
+
+  <app-event-list [events]="match.events"></app-event-list>
+
   <app-player-table [players]="match.players"></app-player-table>
-
 </div>

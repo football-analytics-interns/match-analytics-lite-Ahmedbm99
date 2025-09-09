@@ -1,20 +1,19 @@
 package com.matchAnalytics.model;
 
 import jakarta.persistence.*;
+import java.util.Map;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.matchAnalytics.repository.PlayerRepository;
 
 @Entity
 @Table(name = "events")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,106 +28,49 @@ public class Event {
     @JoinColumn(name = "player_id")
     private Player player;
 
-    @Column(columnDefinition = "jsonb")
-    @JdbcTypeCode(SqlTypes.JSON)
-    private String meta; 
-    @Transient
-    private Player assist;
-    @Transient
-    private JsonNode metaObject;
-
     @ManyToOne
     @JoinColumn(name = "match_id")
-    @JsonBackReference
+    @JsonBackReference("match-events")
     private Match match;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(columnDefinition = "json")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private Map<String, Object> meta;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getMinute() {
-        return minute;
-    }
-  
-    public void setMinute(int minute) {
-        this.minute = minute;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Long getPlayerId() {
-        return playerId;
-    }
-
-    public void setPlayerId(Long playerId) {
-        this.playerId = playerId;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public String getMeta() {
-        return meta;
-    }
-
-    public void setMeta(String meta) {
-        this.meta = meta;
-    }
-
-    public JsonNode getMetaObject() {
-        return metaObject;
-    }
-
-    public void setMetaObject(JsonNode metaObject) {
-        this.metaObject = metaObject;
-    }
-    public Match getMatch() {
-        return match;
-    }
-    public void setMatch(Match match) {
-        this.match = match;
-    }
-    public Event(int minute, String type, Long playerId, Player player, String meta, JsonNode metaObject) {
-        this.minute = minute;
-        this.type = type;
-        this.playerId = playerId;
-        this.player = player;
-        this.meta = meta;
-        this.metaObject = metaObject;
-    }
+    @Transient
+    private Player assist;
 
     public Event() {}
 
- public Player getAssist(PlayerRepository playerRepository) {
-    if (assist == null && meta != null) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode node = mapper.readTree(meta);
-            if (node.has("assistId")) {
-                Long assistId = node.get("assistId").asLong();
-                assist = playerRepository.findById(assistId).orElse(null);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();}
+    public Event(int minute, String type, Long playerId, Player player, Map<String, Object> meta) {
+        this.minute = minute;
+        this.type = type;
+        this.playerId = playerId;
+        this.player = player;
+        this.meta = meta;
     }
-    return assist;
-}
-    public void setAssist(Player assist) {
-        this.assist = assist;
-    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public int getMinute() { return minute; }
+    public void setMinute(int minute) { this.minute = minute; }
+
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+
+    public Long getPlayerId() { return playerId; }
+    public void setPlayerId(Long playerId) { this.playerId = playerId; }
+
+    public Player getPlayer() { return player; }
+    public void setPlayer(Player player) { this.player = player; }
+
+    public Match getMatch() { return match; }
+    public void setMatch(Match match) { this.match = match; }
+
+    public Map<String, Object> getMeta() { return meta; }
+    public void setMeta(Map<String, Object> meta) { this.meta = meta; }
+
+    public Player getAssist() { return assist; }
+    public void setAssist(Player assist) { this.assist = assist; }
 }

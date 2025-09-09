@@ -1,6 +1,9 @@
 package com.matchAnalytics.dto;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.matchAnalytics.model.Match;
+import com.matchAnalytics.model.Player;
+
 import java.util.List;
 
 public class SeedData {
@@ -29,5 +32,6 @@ public class SeedData {
         public String type;
         public Long playerId;
         public JsonNode meta; 
+        public Long matchId;
     }
 }

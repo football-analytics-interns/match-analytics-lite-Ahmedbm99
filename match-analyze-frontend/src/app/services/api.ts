@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Match, Event, PlayerStats } from '../models/models';
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,8 @@ export class Api {
   }
 
   addEvent(event: Event): Observable<Event> {
-    return this.http.post<Event>(`${this.baseUrl}/event`, event);
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<Event>(`${this.baseUrl}/event`, event, { headers });
   }
 
   getPlayerStats(playerId: number): Observable<PlayerStats> {

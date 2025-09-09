@@ -26,41 +26,23 @@ public class MatchService {
 
     public Optional<Match> getMatch(Long id) {
         return matchRepository.findById(id).map(match -> {
-            // Fetch players for the match
             List<Player> players = playerRepository.findByMatchId(match.getId());
-
-            // Fetch events for the match
             List<Event> events = eventRepository.findByMatchId(match.getId());
-
-            // Enrich events with player info
             List<Event> eventDTOs = events.stream().map(event -> {
                 Event dto = new Event();
                 dto.setMinute(event.getMinute());
                 dto.setType(event.getType());
-
-                // Set player info
                 Player player = players.stream()
                         .filter(p -> p.getId().equals(event.getPlayerId()))
                         .findFirst()
                         .orElse(null);
                 dto.setPlayer(player);
 
-                // Set assist info if present
-                if (event.getMeta() != null && event.getAssist(playerRepository) != null) {
-                    Player assistPlayer = players.stream()
-                            .filter(p -> p.getId().equals(event.getAssist(playerRepository)))
-                            .findFirst()
-                            .orElse(null);
-                    dto.setAssist(assistPlayer);
-                }
-
-                // Add other meta if needed
                 dto.setMeta(event.getMeta());
 
                 return dto;
             }).toList();
 
-            // Build MatchDTO
             Match matchDTO = new Match();
             matchDTO.setId(match.getId());
             matchDTO.setDate(match.getDate());

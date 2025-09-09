@@ -12,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
+import java.util.Map;
 
 @Component
 public class DataSeeder implements CommandLineRunner {
@@ -37,12 +38,12 @@ public class DataSeeder implements CommandLineRunner {
             System.out.println("Database already seeded.");
             return;
         }
-        
+
         try (InputStream inputStream = getClass().getResourceAsStream("/seed/match.json")) {
-        
-        
+
             SeedData seed = objectMapper.readValue(inputStream, SeedData.class);
 
+            // --- Save Match ---
             Match match = new Match();
             match.setId(seed.match.id);
             match.setDate(seed.match.date);
@@ -52,6 +53,7 @@ public class DataSeeder implements CommandLineRunner {
             match.setAwayTeam(seed.match.awayTeam);
             matchRepository.save(match);
 
+            // --- Save Players ---
             for (SeedData.PlayerDTO p : seed.players) {
                 Player player = new Player();
                 player.setId(p.id);
@@ -62,21 +64,29 @@ public class DataSeeder implements CommandLineRunner {
                 playerRepository.save(player);
             }
 
+            // --- Save Events ---
             for (SeedData.EventDTO e : seed.events) {
                 Event event = new Event();
                 event.setMinute(e.minute);
                 event.setType(e.type);
-                event.setMeta(e.meta.toString());
                 event.setMatch(match);
 
+                // Set player
                 Player player = playerRepository.findById(e.playerId)
                         .orElseThrow(() -> new RuntimeException("Player not found for event"));
                 event.setPlayer(player);
+                event.setPlayerId(player.getId());
+
+                // Set meta if exists (convert JSON object to Map)
+                if (e.meta != null) {
+                    Map<String, Object> metaMap = objectMapper.convertValue(e.meta, Map.class);
+                    event.setMeta(metaMap);
+                }
 
                 eventRepository.save(event);
             }
 
-            System.out.println(" Seed data inserted successfully");
+            System.out.println("Seed data inserted successfully.");
         }
     }
 }
