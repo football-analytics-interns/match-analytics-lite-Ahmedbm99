@@ -17,6 +17,7 @@ export class Dashboard implements OnInit {
   match: Match | null = null;
   loading = true;
   toastMessage = '';
+  toastClass = 'success';
   showToast = false;
 
   newEvent: Partial<Event> = { type: 'GOAL', minute: 0, playerId: 0, assist: undefined, meta: undefined };
@@ -76,9 +77,11 @@ export class Dashboard implements OnInit {
     this.newEvent = { type: 'goal', minute: 0, playerId: 0, assist: undefined, meta: undefined };
   }
 
-  private showToastMessage(message: string): void {
-    this.toastMessage = message;
-    this.showToast = true;
-    setTimeout(() => this.showToast = false, 3000);
-  }
+showToastMessage(message: string, type: 'success' | 'error' = 'success') {
+  this.toastMessage = message;
+  this.toastClass = type === 'success' ? 'toast-success' : 'toast-error';
+  this.showToast = true;
+  setTimeout(() => this.showToast = false, 3000);
+}
+
 }

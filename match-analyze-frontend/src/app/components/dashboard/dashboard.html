@@ -1,5 +1,6 @@
-<div class="toast" *ngIf="showToast">{{ toastMessage }}</div>
-
+<div class="toast" *ngIf="showToast" [ngClass]="toastClass">
+  {{ toastMessage }}
+</div>
 <div *ngIf="loading" class="loading-text">Loading match...</div>
 
 <div *ngIf="match" class="match-card">
