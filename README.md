@@ -55,6 +55,21 @@ The database will be seeded automatically using src/main/resources/seed/match.js
 The frontend runs at: http://localhost:4200
 Make sure the backend server is running on port 8080.
 
+## Docker Setup
+### Prerequisites
+Docker 24+
+Docker Compose 2+
+
+1. Build and Run Containers
+   docker-compose up --build
+----
+2. Accessing Services
+Backend API: http://localhost:8080
+Database: localhost:5432
+
+
+
+
 ----
 ### Notes 
 All data is stored in PostgreSQL.
@@ -68,10 +83,11 @@ match-analytics/
 │   ├── src/main/java/com/matchAnalytics
 │   ├── src/main/resources
 │   │   └── seed/match.json
-├── frontend/          # Angular frontend
+├── match-analyze-frontend/          # Angular frontend
 │   ├── src/
 │   └── package.json
-└── README.md
+│── README.md
+└── docker-compose.yml
 
 
 
