@@ -1,0 +1,33 @@
+.header-container {
+  text-align: center;
+  margin: 30px 0;
+  position: relative;
+background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+
+}
+
+.header-container h1 {
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  background: black;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  display: inline-block;
+}
+
+.header-container h1::after {
+  content: '';
+  display: block;
+  width: 60%;
+  height: 4px;
+  background: black;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.header-container h1:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}

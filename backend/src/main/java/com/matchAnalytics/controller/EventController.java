@@ -1,14 +1,12 @@
 package com.matchAnalytics.controller;
 
 import com.matchAnalytics.model.Event;
-import com.matchAnalytics.repository.PlayerRepository;
 import com.matchAnalytics.service.EventService;
-
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/event")
 public class EventController {
 

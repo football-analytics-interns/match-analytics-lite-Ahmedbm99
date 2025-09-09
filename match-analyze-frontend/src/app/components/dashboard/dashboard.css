@@ -1,0 +1,72 @@
+/* Match card */
+.match-card {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px 30px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Header */
+.match-header h2 {
+  font-size: 2rem;
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+.match-header p {
+  text-align: center;
+  color: #34495e;
+  font-weight: 500;
+}
+
+/* Timeline */
+.timeline-container {
+  position: relative;
+  height: 500px;
+  margin: 30px 0;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Stick */
+.timeline-stick {
+  position: absolute;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  background-color: #2c3e50;
+  transform: translateX(-50%);
+}
+
+/* Events */
+.event {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  transform: translateX(-50%);
+}
+
+.event-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #3498db;
+  margin-right: 10px;
+}
+
+.event-dot.goal { background-color: #27ae60; }
+.event-dot.shot { background-color: #e67e22; }
+.event-dot.tackle { background-color: #c0392b; }
+
+.event-info {
+  background: #fff;
+  padding: 5px 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}

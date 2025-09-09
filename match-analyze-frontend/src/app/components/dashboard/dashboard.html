@@ -1,0 +1,15 @@
+<div *ngIf="loading" class="loading-text">Loading match...</div>
+
+<div *ngIf="match" class="match-card">
+  <!-- Match Info -->
+  <div class="match-header">
+    <h2>{{ match.homeTeam }} vs {{ match.awayTeam }}</h2>
+    <p>Date: {{ match.date | date:'short' }}</p>
+  </div>
+
+
+<app-event-list [events]="match.events" ></app-event-list>
+    <!-- Players Table -->
+  <app-player-table [players]="match.players"></app-player-table>
+
+</div>

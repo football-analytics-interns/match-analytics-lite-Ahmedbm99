@@ -3,6 +3,9 @@ package com.matchAnalytics.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "matches")
 public class Match {
@@ -16,9 +19,12 @@ public class Match {
     private Integer homeScore;
     private Integer awayScore;
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Player> players;
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+
     private List<Event> events;
 
     public Long getId() {

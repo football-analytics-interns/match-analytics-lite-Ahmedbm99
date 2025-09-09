@@ -1,0 +1,32 @@
+<div class="lineup-card">
+  <h3>Players Lineup</h3>
+
+  <table class="lineup-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Position</th>
+        <th>Team</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let player of players ?? []" 
+          (click)="selectPlayer(player)"
+          [class.selected]="selectedPlayer?.id === player.id">
+        <td>{{ player.name }}</td>
+        <td>{{ player.position }}</td>
+        <td>{{ player.team }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Player Details Card -->
+  <div *ngIf="selectedPlayer" class="player-details">
+    <h4>{{ selectedPlayer.name }} Details</h4>
+    <p><strong>Position:</strong> {{ selectedPlayer.position }}</p>
+    <p><strong>Team:</strong> {{ selectedPlayer.team }}</p>
+    <p><strong>Goals:</strong> {{ selectedStats?.goals ?? 0 }}</p>
+    <p><strong>Assists:</strong> {{ selectedStats?.assists ?? 0 }}</p>
+    <p><strong>Rating:</strong> {{ selectedStats?.rating ?? '-' }}</p>
+  </div>
+</div>

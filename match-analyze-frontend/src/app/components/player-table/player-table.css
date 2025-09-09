@@ -1,0 +1,51 @@
+.lineup-card {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 20px;
+  background: linear-gradient(145deg, #fdfdfd, #f0f0f5);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.lineup-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.lineup-table th, .lineup-table td {
+  text-align: left;
+  padding: 12px 15px;
+  font-size: 0.95rem;
+}
+
+.lineup-table thead {
+  background: #2c3e50;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+}
+
+.lineup-table tbody tr {
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.lineup-table tbody tr:hover {
+  background: #f1f7ff;
+}
+
+.lineup-table tbody tr.selected {
+  background: #d6eaff;
+}
+
+.player-details {
+  margin-top: 20px;
+  padding: 15px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}

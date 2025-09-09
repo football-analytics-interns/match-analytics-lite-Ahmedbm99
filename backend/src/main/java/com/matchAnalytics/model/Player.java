@@ -3,6 +3,8 @@ package com.matchAnalytics.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "players")
 public class Player {
@@ -15,9 +17,11 @@ public class Player {
 
     @ManyToOne
     @JoinColumn(name = "match_id")
+    @JsonBackReference
     private Match match;
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Event> events;
 
     public Long getId() {

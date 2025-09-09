@@ -1,0 +1,31 @@
+<div class="timeline-container">
+  <div class="timeline-stick"></div>
+
+  <!-- Start and End Markers -->
+  <div class="event start">
+    <div class="event-dot start-dot"><i class="fas fa-play"></i></div>
+    <div class="event-info">Kick-off (0')</div>
+  </div>
+
+  <div class="event end">
+    <div class="event-dot end-dot"><i class="fas fa-flag-checkered"></i></div>
+    <div class="event-info">Full-time (90')</div>
+  </div>
+
+  <!-- Match Events -->
+  <div *ngFor="let event of events"
+       class="event"
+       [style.bottom.%]="(event.minute / 90) * 100"
+       [ngClass]="event.player?.team === homeTeam ? 'home' : 'away'">
+
+    <div class="event-dot" [ngClass]="event.type.toLowerCase()">
+      <i [ngClass]="getEventIcon(event.type)"></i>
+    </div>
+
+    <div class="event-info">
+      <strong>{{ event.player?.name }}</strong>
+      <span class="event-type">{{ event.type }} ({{ event.minute }}')</span>
+      <span *ngIf="event.assist" class="assist">Assist: {{ event.assist?.name }}</span>
+    </div>
+  </div>
+</div>
